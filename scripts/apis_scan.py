@@ -4,8 +4,10 @@ import logging
 import os
 import time
 from datetime import datetime
-
+import jinja2.sandbox
+from pathlib import Path
 from zapv2 import ZAPv2
+import json 
 
 try:
     from . import config
@@ -37,6 +39,21 @@ def create_session(session_name):
 
 
 def enable_httpsender_script():
+
+    if config.HTTP_SENDER_SCRIPT_PARAMS != "":
+        # Set Cookie var from config 
+        template_env = jinja2.sandbox.SandboxedEnvironment(
+            loader=jinja2.ChoiceLoader(
+                [
+                    jinja2.FileSystemLoader(searchpath="./"),
+                    jinja2.FileSystemLoader(searchpath=str(Path(__file__).parent)),
+                ]
+            )
+        )
+        template = template_env.get_template(config.HTTP_SENDER_SCRIPT_FILE_PATH)
+
+        template.render(params=config.HTTP_SENDER_SCRIPT_PARAMS)
+        
     script = zap.script
     script.remove(scriptname=config.HTTP_SENDER_SCRIPT_NAME)
     logging.info(

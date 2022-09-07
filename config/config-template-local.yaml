@@ -87,6 +87,7 @@ scan:
   #HttpSenderScriptEngine: 'Oracle Nashorn'
   #HttpSenderScriptFilePath: 'scripts/add-bearer-token.js'
   #HttpSenderScriptDescription: 'add bearer token to each HTTP request'
+  #HTTPParams: {} #Any parameters you want to use in your authentication script 
 
 #### UPSTREAM PROXY ####
 proxy:
