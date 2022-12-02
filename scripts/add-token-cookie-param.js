@@ -44,15 +44,15 @@ function modifyCookies(cookies) {
     var iterator = cookies.iterator();
     while(iterator.hasNext()) {
         var cookie = iterator.next();
-        print('cookie type' + str(params.cookieType))
-        if (cookie.getName().equals(params.cookieType)) {
+        print('cookie type' + str(params.cookieName))
+        if (cookie.getName().equals(params.cookieName)) {
             cookie.setValue(params.cookieVal)
             hasAccessToken = 1            
         }
     }
     if(hasAccessToken==0){
         var HtmlParameter = Java.type('org.parosproxy.paros.network.HtmlParameter')
-        var newCookie = new HtmlParameter(COOKIE_TYPE, params.cookieType, params.cookieVal);
+        var newCookie = new HtmlParameter(COOKIE_TYPE, params.cookieName, params.cookieVal);
 
         cookies.add(newCookie) 
         //print('new cookie:' + cookies)
