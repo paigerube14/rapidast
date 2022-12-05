@@ -37,25 +37,27 @@ function sendingRequest(msg, initiator, helper) {
 }
 
 var COOKIE_TYPE   = org.parosproxy.paros.network.HtmlParameter.Type.cookie;
-var params = {{ params | tojson | safe }}; // replace with a token that can be obtained via 'Copy login command' menu in the console
+var params = {{ params | tojson | safe }}; // pass a dictionary wtih cookieName and cookieVal as keys
+// cookieVal will be replaced with a token that can be obtained via 'Copy login command' menu in the console
 
 function modifyCookies(cookies) {
     var hasAccessToken = 0
     var iterator = cookies.iterator();
     while(iterator.hasNext()) {
         var cookie = iterator.next();
-        print('cookie type' + str(params.cookieName))
-        if (cookie.getName().equals(params.cookieName)) {
-            cookie.setValue(params.cookieVal)
-            hasAccessToken = 1            
+        if(params.cookieName && params.cookieVal) {
+            print('cookie name: ' + str(params.cookieName))
+            if (cookie.getName().equals(params.cookieName)) {
+                cookie.setValue(params.cookieVal)
+                hasAccessToken = 1          
+            }  
         }
     }
     if(hasAccessToken==0){
         var HtmlParameter = Java.type('org.parosproxy.paros.network.HtmlParameter')
         var newCookie = new HtmlParameter(COOKIE_TYPE, params.cookieName, params.cookieVal);
 
-        cookies.add(newCookie) 
-        //print('new cookie:' + cookies)
+        cookies.add(newCookie)
     }
     return cookies;
 }
