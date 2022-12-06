@@ -9,6 +9,7 @@ RESULTS_DIR=${2:-.}
 # Name for rapiterm pod
 RANDOM_NAME=rapiterm-$RANDOM
 
+NAMESPACE=rapidast
 # Name of PVC in RapiDAST Resource, i.e. which PVC to mount to grab results
 PVC=${1:-rapidast-pvc}
 
@@ -21,7 +22,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: $RANDOM_NAME
-  namespace: rapidast
+  namespace: $NAMESPACE
 spec:
   containers:
     - name: terminal
@@ -46,7 +47,7 @@ EOF
 
 kubectl apply -f $TMP_DIR/$RANDOM_NAME
 rm $TMP_DIR/$RANDOM_NAME
-kubectl wait --for=condition=Ready pod/$RANDOM_NAME -n rapidast
-kubectl cp $RANDOM_NAME:/zap/results $RESULTS_DIR  -n rapidast
-kubectl delete pod $RANDOM_NAME -n rapidast
+kubectl wait --for=condition=Ready pod/$RANDOM_NAME -n $NAMESPACE
+kubectl cp $RANDOM_NAME:/zap/results $RESULTS_DIR  -n $NAMESPACE
+kubectl delete pod $RANDOM_NAME -n $NAMESPACE
 
