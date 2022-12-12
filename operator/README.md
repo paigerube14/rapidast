@@ -17,7 +17,7 @@ If your cluster has OLM installed, you can use it to install and manage the Rapi
 For the example outlined here, a namespace `rapidast` has already been created on the cluster. Should you desire to install the operator to another namespace, update the YAML accordingly.
 
 If not already created, create rapidast namespace: 
- `kubectl create ns rapidast`
+ `oc create -f namespace.yaml`
 
 Install the operator by adding the following CatalogSource, Subscription, and OperatorGroup resources to your cluster.
 
@@ -95,10 +95,10 @@ kubectl apply -f operatorgroup.yaml
 As an alternative to the operator, it is possible to set up a scan by installing the included helm chart
 
 ```bash
-helm install -f overrides.yaml rapidast-operator ./helm-charts/rapidast-chart --namespace=rapidast
+helm install -f config/samples/research_v1alpha1_rapidast.yaml rapidast-operator ./helm-charts/rapidast-chart --namespace=rapidast
 ```
 
-Where `overrides.yaml` should hold the configuration for your scan based on the values as described in the following section.
+Where `config/samples/research_v1alpha1_rapidast.yaml` should hold the configuration for your scan based on the values as described in the following section.
 
 ## Setting Up for a Scan
 

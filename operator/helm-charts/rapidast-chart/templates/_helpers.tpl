@@ -37,7 +37,9 @@ Create job spec
 template: 
   metadata:
     name: {{ .Release.Name }}-job
+    namespace: {{ .Release.Namespace }}
   spec:
+    backoffLimit: 1
     containers:
     - name: "{{ .Chart.Name }}"
       image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"

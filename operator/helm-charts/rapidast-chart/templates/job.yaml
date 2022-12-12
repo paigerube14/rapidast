@@ -6,9 +6,11 @@ kind: Job
 {{ end }}
 metadata:
   name: {{ .Release.Name }}-job
+  namespace: {{ .Release.Namespace }}
 spec:
 {{ if .Values.job.cron }}
   schedule: "{{ .Values.job.schedule }}"
+  backoffLimit: 1
   jobTemplate:
     spec:
 {{- include "rapidast-chart.job" . | nindent 6}}
